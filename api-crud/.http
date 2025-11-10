@@ -1,0 +1,23 @@
+## lista de produtos
+GET http://localhost:3000/produtos
+
+### cria um produto
+POST http://localhost:3000/produtos
+Content-Type: application/json
+
+{
+	"nome": "Moto E",
+	"preco": 800
+}
+
+### atualiza produto
+PUT http://localhost:3000/produtos/4
+Content-Type: application/json
+
+{
+	"nome": "Moto G",
+	"preco": 900
+}
+
+### deleta produto
+DELETE http://localhost:3000/produtos/4
