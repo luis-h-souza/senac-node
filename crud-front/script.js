@@ -4,6 +4,7 @@ const form = document.getElementById('produto-form');
 const nomeInput = document.getElementById('nome');
 const precoInput = document.getElementById('preco');
 
+
 // Carregar produtos ao iniciar
 async function carregarProdutos() {
     const res = await fetch(API_URL, {
@@ -11,18 +12,26 @@ async function carregarProdutos() {
     });
     const produtos = await res.json();
     lista.innerHTML = '';
-
+    
     if (produtos.length === 0) {
         lista.innerHTML = `<tr><td colspan="4" class="text-muted">Nenhum produto cadastrado.</td></tr>`;
         return;
     }
-
+    
+    function formatarMoeda(moeda) {
+        let price = precoInput;
+        moeda = new Intl.NumberFormat('pt-BR', {
+            style: "currency",
+            currency: 'BRL',
+        }).format(price);
+    }   
+    
     produtos.forEach(produto => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
         <td>${produto.id}</td>
             <td>${produto.nome}</td>
-            <td>R$ ${produto.preco.toFixed(2)}</td>
+            <td>R$ ${produto.preco} </td>
             <td>
                 <button class="btn btn-sm btn-warning me-2" onclick="editarProduto(${produto.id}, '${produto.nome}', ${produto.preco})">Editar</button>
                 <button class="btn btn-sm btn-danger" onclick="deletarProduto(${produto.id})">Excluir</button>

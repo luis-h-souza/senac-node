@@ -5,14 +5,17 @@ const app = express();
 const PORT = 3000;
 
 // permite requisições externas
-app.use(cors())
+//app.use(cors()) // permite todas as requisições
+
+// permissão específica
+app.use(cors({origin: 'http://127.0.0.1:5500'}))
 
 app.use(express.json());
 
 let produtos = [
   { id: 1, nome: 'iPhone 14', preco: 3500 },
   { id: 2, nome: 'Notebook CCE', preco: 1500 },
-  { id: 3, nome: 'Motorola', preco: 1000 },
+  { id: 3, nome: 'Motorola MOTO G', preco: 1000 },
 ];
 let nextId = 4;
 
