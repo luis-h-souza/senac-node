@@ -1,15 +1,41 @@
-import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import pino from 'pino';
+import pinoHttp from 'pino-http';
 
-dotenv.config();
+import type { Request, Response, NextFunction } from 'express';
+import productRouter from './router/productRouter';
 
-const PORT = process.env.PORT || 3000;
+const app = express();
 
-async function main() {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-}
+const logger = pino({
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+      translateTime: 'HH:MM:ss Z',
+    }
+  }
+})
 
-main().catch(error => {
-  console.error('Failed to start application:', error);
-  process.exit(1);
+// logger.info('')
+// Para integração com Express, você pode usar pino-http
+app.use(pinoHttp({ logger }));
+
+app.use(cors({ origin: 'http://127.0.0.1:5500' }));
+
+app.use(express.json());
+
+app.use('/product', productRouter);
+
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.send('Hello World!');
 });
+
+// middleware de tratamento de erros
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).send(error.message);
+});
+
+export default app;

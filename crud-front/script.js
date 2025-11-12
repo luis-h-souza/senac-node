@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/produtos';
+const API_URL = 'http://localhost:3000/product';
 const lista = document.getElementById('lista-produtos');
 const form = document.getElementById('produto-form');
 const nomeInput = document.getElementById('nome');
@@ -80,7 +80,7 @@ async function editarProduto(id, nomeAtual, precoAtual) {
 
     if (novoNome && !isNaN(novoPreco)) {
         await fetch(`${API_URL}/${id}`, {
-            method: 'PUT',
+            method: 'PATCH', // ou PUT
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nome: novoNome, preco: novoPreco })
         });
