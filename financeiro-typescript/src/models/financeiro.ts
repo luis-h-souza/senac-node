@@ -13,7 +13,7 @@ export class Financeiro extends Model<
   declare id: number;
   declare data: Date;
   declare descricao: String;
-  declare formPagamento: String;
+  declare formaPagamento: String;
   declare valor: Number;
   declare tipo: String;
 }
@@ -51,7 +51,7 @@ export default (sequelize: Sequelize) => {
         },
       },
 
-      formPagamento: {
+      formaPagamento: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {

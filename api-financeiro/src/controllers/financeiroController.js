@@ -1,10 +1,10 @@
 const { where } = require('sequelize')
-const { Financeiro } = require('../models')
+const { Financeiro, Usuario } = require('../models')
 
 // listar pelo ID -> GET
 exports.showById = async (req, res) => {
   const { id } = req.params
-  const data = await Financeiro.findByPk(id)
+  const data = await Financeiro.findAll(id)
   if (data === null) {
     res.status(404).json({ error: 'Erro ao buscar registros.', details: error.message })
   } else {
@@ -14,8 +14,10 @@ exports.showById = async (req, res) => {
 
 // listar -> GET
 exports.show = async (req, res) => {
+  const usuarioId = req.usuarioId
+
   try {
-    const data = await Financeiro.findAll()
+    const data = await Financeiro.findAll({ where: { usuarioId } })
     res.status(200).json(data)
   } catch (error) {
     res.status(404).json({ error: 'Erro ao buscar registros.', details: error.message })
@@ -24,9 +26,15 @@ exports.show = async (req, res) => {
 
 // criar -> POST
 exports.create = async (req, res) => {
+  const usuarioId = req.usuarioId
 
   try {
-    const registro = await Financeiro.create(req.body)
+    const dados = {
+      ...req.body,
+      usuarioId: usuarioId
+    }
+
+    const registro = await Financeiro.create(dados)
     res.status(201).json(registro)
   } catch (listaDeErros) {
 
