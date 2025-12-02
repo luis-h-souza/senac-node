@@ -1,2 +1,0 @@
-const { Usuario } = require('../models')
-

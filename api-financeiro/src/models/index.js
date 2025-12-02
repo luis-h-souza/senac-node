@@ -1,4 +1,5 @@
 const conexaoBanco = require('../config/database')
+const Categoria = require('./categoria')(conexaoBanco)
 const Financeiro = require('./financeiro')(conexaoBanco)
 const Usuario = require('./usuario')(conexaoBanco)
 
@@ -16,4 +17,18 @@ Financeiro.belongsTo(Usuario, {
   onUpdate: 'CASCADE'
 })
 
-module.exports = { conexaoBanco, Financeiro, Usuario }
+// um registro financeiro pode ter muitas categorias
+Categoria.hasMany(Financeiro, {
+  foreignKey: 'categoriaId',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+})
+
+// uma categoria pertence a um registro financeiro
+Financeiro.belongsTo(Categoria, {
+  foreignKey: 'categoriaId',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+})
+
+module.exports = { conexaoBanco, Financeiro, Usuario, Categoria }
