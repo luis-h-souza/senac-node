@@ -10,7 +10,6 @@ exports.show = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const { nome, descricao } = req.body
 
   try {
     const categoria = await Categoria.create(req.body)
@@ -23,8 +22,25 @@ exports.create = async (req, res) => {
         inconsistencias: listaDeErros.errors.map(e => e.message)
       })
     }
-    // use the caught variable's message (listaDeErros) instead of undefined `error`
     res.status(500).json({ error: 'Erro ao criar o registro.', details: listaDeErros.message })
+  }
+}
+
+exports.update = async (req, res) => {
+  const { id } = req.params
+  const registroAtualizado = req.body
+
+  try {
+    const registro = await Categoria.update(registroAtualizado, { where: { id } })
+    res.status(200).json(registroAtualizado)
+
+  } catch (listaDeErros) {
+    if (listaDeErros.name == 'SequelizeValidationError') {
+      return res.status(400).json({
+        inconsistencias: listaDeErros.errors.map(e => e.message)
+      })
+    }
+    res.status(500).json({ error: 'Error ao atualizar registro', details: listaDeErros.message })
   }
 }
 

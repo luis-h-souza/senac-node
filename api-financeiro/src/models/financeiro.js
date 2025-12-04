@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const categoria = require('./categoria');
 
 module.exports = (conexaoBanco) => {
   const Financeiro = conexaoBanco.define('Financeiro', {
@@ -53,6 +54,14 @@ module.exports = (conexaoBanco) => {
         isIn: {
           args: [['entrada', 'saida']],
           msg: 'O tipo deve ser "entrada" ou "saida"',
+        }
+      },
+      categoriaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'categoria',
+          key: 'id'
         }
       }
     },

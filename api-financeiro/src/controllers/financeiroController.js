@@ -1,5 +1,5 @@
 const { where } = require('sequelize')
-const { Financeiro, Usuario } = require('../models')
+const { Financeiro, Usuario, Categoria } = require('../models')
 
 // listar pelo ID -> GET
 exports.showById = async (req, res) => {
@@ -17,7 +17,12 @@ exports.show = async (req, res) => {
   const usuarioId = req.usuarioId
 
   try {
-    const data = await Financeiro.findAll({ where: { usuarioId } })
+    const data = await Financeiro.findAll({
+      where: { usuarioId },
+      include: [{
+        model: Categoria
+      }]
+    })
     res.status(200).json(data)
   } catch (error) {
     res.status(404).json({ error: 'Erro ao buscar registros.', details: error.message })
@@ -44,7 +49,7 @@ exports.create = async (req, res) => {
         inconsistencias: listaDeErros.errors.map(e => e.message)
       })
     }
-    res.status(500).json({ error: 'Erro ao criar o registro.', details: error.message })
+    res.status(500).json({ error: 'Erro ao criar o registro.', details: listaDeErros.message })
   }
 }
 

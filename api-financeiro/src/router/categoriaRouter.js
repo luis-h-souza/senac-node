@@ -7,9 +7,8 @@ const authMiddleware = require('../middlewares/authMiddleware')
 router.use(authMiddleware)
 
 router.get('/', categoriaController.show)
-// router.get('/:id', categoriaController.showById)
 router.post('/', categoriaController.create)
-// router.put('/:id', categoriaController.update)
-// router.delete('/:id', categoriaController.delete)
+router.put('/:id', categoriaController.update)
+router.delete('/:id', categoriaController.delete)
 
 module.exports = router
