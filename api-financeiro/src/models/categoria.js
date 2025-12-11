@@ -17,7 +17,7 @@ module.exports = (conexaoBanco) => {
       validate: {
         notNull: { msg: 'A descrição é obrigatória' },
         notEmpty: { msg: 'A descrição não pode ser vazia' },
-        len: { args: [3, 30], msg: 'A descrição deve ter entre 3 e 30 caracteres' },
+        len: { args: [3, 255], msg: 'A descrição deve ter entre 3 e 255 caracteres' },
       }
     },
   }, {

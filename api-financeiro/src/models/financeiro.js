@@ -19,10 +19,9 @@ module.exports = (conexaoBanco) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: 'A descrição é obrigatória' },
-        // noEmpty: { msg: 'A descrição não pode estar vazia' },
-        min: 5,
-        max: 20,
+          notNull: { msg: 'A descrição é obrigatória' },
+          notEmpty: { msg: 'A descrição não pode estar vazia' },
+          len: { args: [5, 255], msg: 'A descrição deve ter entre 5 e 255 caracteres' },
       }
     },
     formaPagamento: {
@@ -30,9 +29,8 @@ module.exports = (conexaoBanco) => {
       allowNull: false,
       validate: {
         notNull: { msg: 'A descrição é obrigatória' },
-        // noEmpty: { msg: 'A descrição não pode estar vazia' },
         isIn: {
-          args: [['pix', 'dinheiro', 'crédito', 'débito', 'boleto', 'cheque']],
+          args: [['pix', 'dinheiro', 'credito', 'debito']],
           msg: 'Forma de pagamento inválido',
         }
       }
@@ -56,13 +54,13 @@ module.exports = (conexaoBanco) => {
           msg: 'O tipo deve ser "entrada" ou "saida"',
         }
       },
-      categoriaId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'categoria',
-          key: 'id'
-        }
+    },
+    categoriaId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'categoria',
+        key: 'id'
       }
     },
   }, {
